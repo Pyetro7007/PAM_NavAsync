@@ -6,17 +6,17 @@ const windowWidth = Dimensions.get('window').width;
 export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Home Screen</Text>
+            <Text style={styles.title}>Home</Text>
             <View style={styles.buttonContainer}>
                 <Button
-                    title="Go to Details"
-                    onPress={() => navigation.navigate('Details')}
+                    title="Ir para Detalhes"
+                    onPress={() => navigation.navigate('Detalhes')}
                 />
             </View>
             <View style={styles.buttonContainer}>
                 <Button
-                    title="Go to Profile"
-                    onPress={() => navigation.navigate('Profile')}
+                    title="Ir para Perfil"
+                    onPress={() => navigation.navigate('Perfil')}
                 />
             </View>
         </View>
@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f0f8ff', // Cor de fundo da tela
+        backgroundColor: '#E3F2FD', // Cor de fundo da tela
     },
     title: {
         fontSize: 24,
         marginBottom: 20,
+        color: '#2C3E50',
     },
     buttonContainer: {
         backgroundColor: '#add8e6', // Cor de fundo do container do botão

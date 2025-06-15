@@ -14,8 +14,8 @@ export default function App() {
             <Stack.Navigator initialRouteName="Login">
                 <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-                <Stack.Screen name="Details" component={DetailsScreen} />
-                <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Detalhes" component={DetailsScreen} />
+                <Stack.Screen name="Perfil" component={ProfileScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

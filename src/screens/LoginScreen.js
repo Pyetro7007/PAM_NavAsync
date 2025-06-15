@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Dimensions, Alert } from 'react-native';
-import { TextInput } from 'react-native';
+import { View, Text, Button, StyleSheet, Dimensions, Alert, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
@@ -10,44 +9,46 @@ export default function LoginScreen({ navigation }) {
     const [senha, setSenha] = useState('');
 
     useEffect(() => {
-        setDados();
+        getDados();
     }, []);
 
     const getDados = async () => {
         try {
-            await AsyncStorage.getItem('DadosUsuario').then(value => {
-                if (value != null) {
-                    Alert.alert("Logou com sucesso");
+            const usuario = {
+                    Email: "usuario123@gmail.com",
+                    Senha: "123"
                 };
-            });
+                await AsyncStorage.setItem("Dados", JSON.stringify(usuario));
         } catch (error) {
             console.warn(error);
-        };
+        }
     };
 
     const setDados = async () => {
-        if (email.length == 0 || senha.length == 0) {
-            Alert.alert("Digite o login corretamente");
-        } else {
             try {
-                var usuario = {
-                    Email: email,
-                    Senha: senha,
-                };
-                await AsyncStorage.setItem('DadosUsuario', JSON.stringify(usuario));
-                Alert.alert("Conta criada com sucesso");
+                const dadosSalvos = await AsyncStorage.getItem("Dados");
+                if (dadosSalvos) {
+                    const usuario = JSON.parse(dadosSalvos);
+                    if (email == usuario.Email && senha == usuario.Senha) {
+                        Alert.alert("Logou com sucesso");
+                        navigation.navigate('Home');
+                    } else {
+                        Alert.alert("Email ou senha incorretos");
+                    }
+                } else {
+                    Alert.alert("Erro ao recuperar dados salvos")
+                }
             } catch (error) {
                 console.warn(error);
-            };
+            }
         };
-    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Login Screen</Text>
+            <Text style={styles.title}>Login</Text>
 
             <View style={styles.inputContainer}>
-                <TextInput
+                <TextInput style={styles.placeHolder}
                     placeholder='Digite o email'
                     keyboardType='email-address'
                     onChangeText={setEmail}
@@ -55,20 +56,18 @@ export default function LoginScreen({ navigation }) {
             </View>
 
             <View style={styles.inputContainer}>
-                <TextInput
+                <TextInput style={styles.placeHolder}
                     placeholder='Digite a senha'
                     secureTextEntry={true}
                     onChangeText={setSenha}
+                    
                 />
             </View>
 
             <View style={styles.buttonContainer}>
                 <Button
                     title="Logar"
-                    onPress={() => {
-                        setDados()
-                        navigation.navigate('Home')
-                    }}
+                    onPress={setDados}
                 />
             </View>
         </View>
@@ -80,17 +79,19 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f0f8ff', // Cor de fundo da tela
+        backgroundColor: '#87CEEB', // Cor de fundo da tela
     },
     title: {
         fontSize: 24,
-        marginBottom: 2,
+        marginBottom: 25,
+        color: '#2C3E50',
     },
     buttonContainer: {
         backgroundColor: '#add8e6', // Cor de fundo do container do botão
         margin: 10,
-        width: windowWidth * 0.5, // 50% da largura da tela
+        width: windowWidth * 0.7, // 50% da largura da tela
         borderRadius: 5,
+        marginTop: 25,
     },
     input: {
         backgroundColor: '#add8e6', // Cor de fundo do container do botão
@@ -99,6 +100,12 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         margin: 10,
-        width: windowWidth * 0.5, // 50% da largura da tela
-    }
+        width: windowWidth * 0.75, // 75% da largura da tela
+        backgroundColor: '#e9e9e9',
+        borderRadius: 50,
+    },
+    placeHolder: {
+        marginLeft: 15,
+        marginRight: 15,
+    },
 });

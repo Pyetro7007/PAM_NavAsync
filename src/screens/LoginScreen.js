@@ -7,9 +7,15 @@ const windowWidth = Dimensions.get('window').width;
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [loginState, setState] = useState(false);
 
     useEffect(() => {
-        getDados();
+        const getUsuario = async () => {
+            if(JSON.parse(await AsyncStorage.getItem("Estado"))) {
+                navigation.navigate("Home");
+            }
+        }
+        getUsuario();
     }, []);
 
     const getDados = async () => {
@@ -31,6 +37,7 @@ export default function LoginScreen({ navigation }) {
                     const usuario = JSON.parse(dadosSalvos);
                     if (email == usuario.Email && senha == usuario.Senha) {
                         Alert.alert("Logou com sucesso");
+                        await AsyncStorage.setItem("Estado", JSON.stringify(true));
                         navigation.navigate('Home');
                     } else {
                         Alert.alert("Email ou senha incorretos");
@@ -45,30 +52,34 @@ export default function LoginScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <View style={styles.menu}>
             <Text style={styles.title}>Login</Text>
+                <View style={styles.linha}></View>
 
-            <View style={styles.inputContainer}>
-                <TextInput style={styles.placeHolder}
-                    placeholder='Digite o email'
-                    keyboardType='email-address'
-                    onChangeText={setEmail}
-                />
-            </View>
+                <View style={styles.inputContainer}>
+                    <TextInput style={styles.placeHolder}
+                        placeholder='Digite o email'
+                        placeholderTextColor={'#FFFFFF'}
+                        keyboardType='email-address'
+                        onChangeText={setEmail}
+                    />
+                </View>
 
-            <View style={styles.inputContainer}>
-                <TextInput style={styles.placeHolder}
-                    placeholder='Digite a senha'
-                    secureTextEntry={true}
-                    onChangeText={setSenha}
-                    
-                />
-            </View>
+                <View style={styles.inputContainer}>
+                    <TextInput style={styles.placeHolder}
+                        placeholder='Digite a senha'
+                        placeholderTextColor={'#FFFFFF'}
+                        secureTextEntry={true}
+                        onChangeText={setSenha}   
+                    />
+                </View>
 
-            <View style={styles.buttonContainer}>
-                <Button
-                    title="Logar"
-                    onPress={setDados}
-                />
+                <View style={styles.buttonContainer}>
+                    <Button
+                        title="Logar"
+                        onPress={setDados}
+                    />
+                </View>
             </View>
         </View>
     );
@@ -79,19 +90,19 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#87CEEB', // Cor de fundo da tela
+        backgroundColor: '#A60303', // Cor de fundo da tela
     },
     title: {
         fontSize: 24,
-        marginBottom: 25,
-        color: '#2C3E50',
+        color: '#FFFFFF',
+        marginLeft: 20,
+        marginTop: 20,
     },
     buttonContainer: {
         backgroundColor: '#add8e6', // Cor de fundo do container do botão
-        margin: 10,
         width: windowWidth * 0.7, // 50% da largura da tela
         borderRadius: 5,
-        marginTop: 25,
+        margin: 25,
     },
     input: {
         backgroundColor: '#add8e6', // Cor de fundo do container do botão
@@ -101,11 +112,24 @@ const styles = StyleSheet.create({
     inputContainer: {
         margin: 10,
         width: windowWidth * 0.75, // 75% da largura da tela
-        backgroundColor: '#e9e9e9',
-        borderRadius: 50,
+        borderWidth: 2.5,
+        backgroundColor: '#292C33',
+        borderColor: '#F20505',
+        borderRadius: 1,
     },
     placeHolder: {
         marginLeft: 15,
         marginRight: 15,
+    },
+    menu: {
+        flex: 1,
+        backgroundColor: '#0D0D0D', // Cor de fundo da tela
+        margin: 225,
+    },
+    linha: {
+        flex: 1,
+        backgroundColor: '#919191',
+        width: windowWidth * 0.75,
+        margin: 31,
     },
 });

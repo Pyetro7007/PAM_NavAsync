@@ -1,9 +1,16 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { View, Text, Button, StyleSheet, Dimensions } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function ProfileScreen({ navigation }) {
+
+    const logout = async () => {
+        await AsyncStorage.setItem("Estado", JSON.stringify(false));
+        navigation.replace("Login");
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Perfil</Text>
@@ -17,6 +24,12 @@ export default function ProfileScreen({ navigation }) {
                 <Button
                     title="Ir para Detalhes"
                     onPress={() => navigation.navigate('Detalhes')}
+                />
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button
+                    title="Logout"
+                    onPress={() => logout()}
                 />
             </View>
         </View>

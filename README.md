@@ -2,9 +2,9 @@ Esse repositório compartilha um aplicativo mobile simples, desenvolvido em Java
 A base do código foi construída em sala de aula, com melhorias implementadas como parte de um desafio adicional. Mais informações sobre ajustes e funcionalidades extras estão disponíveis no final do arquivo.
 
 As tecnologias usadas foram:
-	- Java Script
-	- React Native
-  - Async Storage
+- Java Script
+- React Native
+- Async Storage
  
 Para clonar o repositório será necessário o seguinte comando:
 
